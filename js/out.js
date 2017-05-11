@@ -105,7 +105,8 @@ function Game() {
 	this.furry = new Furry();
 	this.coin = new Coin();
 	this.score = 0;
-
+	this.audio = new Audio('./szyszko.mp3');
+	this.omnomnom = new Audio('./omnomnom.mp3');
 	this.index = function(x, y) {
 		return x + (y * 10);
 	}
@@ -156,8 +157,9 @@ function Game() {
 	this.checkCoinCollision = function() {
 		if (this.furry.x === this.coin.x && this.furry.y === this.coin.y) {
 			document.querySelector('.coin').classList.remove('coin');
+			this.omnomnom.play();
 			this.score++;
-			document.querySelector('#score > div > strong').innerText = this.score;
+			document.querySelector('div.score > strong').innerText = this.score;
 			this.coin = new Coin();
 			this.showCoin();
 		}
@@ -167,10 +169,11 @@ function Game() {
 	this.gameOver = function() {
 		if (this.furry.x < 0 || this.furry.x > 9 || this.furry.y < 0 || this.furry.y > 9) {
 			clearInterval(this.idSetInterval);
+			this.audio.play();
 			this.board[0].parentElement.classList.add('invisible');
-			document.querySelector('#score').classList.add('invisible');
+			document.querySelector('.score').classList.add('invisible');
 			document.querySelector('#over').classList.remove('invisible')
-			document.querySelector('#over').innerHTML = '<h1>Game Over</h1><h2>Socore: ' + this.score + '</h2>';
+			document.querySelector('#over').innerHTML = '<h1>Game Over</h1><h2>Zjedzonych drzew: ' + this.score + ' </h2><blockquote><p>"Nie chodzi o to,"</p></blockquote>';
 		} else {
 			this.showFurry();
 		}
